@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import UserContextProvider from "@/components/context/UserContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="bg-gray-100 min-h-screen">{children}</div>
+        <UserContextProvider>
+          <div className="bg-gray-100 min-h-screen">{children}</div>
+        </UserContextProvider>
       </body>
     </html>
   );
