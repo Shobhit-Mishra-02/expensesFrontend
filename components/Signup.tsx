@@ -1,43 +1,40 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import createUser from "./actions/createUser";
 
 interface userInterface {
   eamil: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 const SignUp = () => {
-  const [user, setUser] = useState<userInterface>({
+  const router = useRouter();
+  const [newUser, setNewUser] = useState<userInterface>({
     eamil: "",
     password: "",
     confirmPassword: "",
   });
 
   const createNewUser = async () => {
-    if (user.password === user.confirmPassword) {
+    if (newUser.password === newUser.confirmPassword) {
       const payload = {
-        username: user.eamil,
-        password: user.password,
+        username: newUser.eamil,
+        password: newUser.password,
       };
 
-      const res = await fetch("http://localhost:5000/user/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
+      const data = await createUser(payload);
       console.log(data);
 
-      setUser({
+      setNewUser({
         eamil: "",
         password: "",
         confirmPassword: "",
       });
+
+      router.push("/auth/signin");
     }
   };
 
@@ -60,10 +57,10 @@ const SignUp = () => {
           className="border rounded-sm text-xl focus:outline-none focus:border-blue-500 w-full p-1 mb-2"
           type="email"
           id="email"
-          value={user.eamil}
+          value={newUser.eamil}
           onChange={(e) =>
-            setUser({
-              ...user,
+            setNewUser({
+              ...newUser,
               eamil: e.target.value,
             })
           }
@@ -76,10 +73,10 @@ const SignUp = () => {
           className="border rounded-sm text-xl focus:outline-none focus:border-blue-500 w-full p-1 mb-2"
           type="password"
           id="password"
-          value={user.password}
+          value={newUser.password}
           onChange={(e) =>
-            setUser({
-              ...user,
+            setNewUser({
+              ...newUser,
               password: e.target.value,
             })
           }
@@ -92,10 +89,10 @@ const SignUp = () => {
           className="border rounded-sm text-xl focus:outline-none focus:border-blue-500 w-full p-1 mb-2"
           type="password"
           id="confirmPassword"
-          value={user.confirmPassword}
+          value={newUser.confirmPassword}
           onChange={(e) =>
-            setUser({
-              ...user,
+            setNewUser({
+              ...newUser,
               confirmPassword: e.target.value,
             })
           }

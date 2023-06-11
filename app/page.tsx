@@ -1,14 +1,15 @@
-"use client";
-import { useContext } from "react";
-import { userContext } from "@/components/context/UserContextProvider";
 import { redirect } from "next/navigation";
 
-export default function Home() {
-  const { user } = useContext(userContext);
+import { cookies } from "next/headers";
 
-  if (!user.length) {
+export default function Home() {
+  const cookiesStore = cookies();
+
+  if (!cookiesStore.has("user")) {
     redirect("/auth/signin");
   }
 
-  return <div>Home page</div>;
+  const user = cookiesStore.get("user");
+
+  return <div>Home page {user?.value}</div>;
 }

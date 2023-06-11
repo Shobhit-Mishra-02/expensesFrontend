@@ -1,8 +1,37 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
+import validateUser from "./actions/validateUser";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
+  const router = useRouter();
+  const [user, setUser] = useState<{ email: string; password: string }>({
+    email: "",
+    password: "",
+  });
+
+  const signIn = async () => {
+    // console.log(user);
+    const data = await validateUser({
+      username: user.email,
+      password: user.password,
+    });
+    if (data.status === "success") {
+      router.push("/");
+    } else {
+      alert(data.message);
+    }
+  };
+
   return (
-    <div className="w-full max-w-[340px] mx-1 p-2 rounded-md border shadow-md bg-white">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        signIn();
+      }}
+      className="w-full max-w-[340px] mx-1 p-2 rounded-md border shadow-md bg-white"
+    >
       <h1 className="text-3xl font-semibold text-gray-800 text-center pt-4 pb-6">
         Sign in
       </h1>
@@ -14,6 +43,10 @@ const SignIn = () => {
           className="border rounded-sm text-xl focus:outline-none focus:border-blue-500 w-full p-1 mb-2"
           type="email"
           id="email"
+          value={user.email}
+          onChange={(e) => {
+            setUser({ ...user, email: e.target.value });
+          }}
         />
 
         <label className="text-sm text-gray-700" htmlFor="password">
@@ -23,6 +56,10 @@ const SignIn = () => {
           className="border rounded-sm text-xl focus:outline-none focus:border-blue-500 w-full p-1 mb-2"
           type="password"
           id="password"
+          value={user.password}
+          onChange={(e) => {
+            setUser({ ...user, password: e.target.value });
+          }}
         />
       </div>
 
@@ -34,11 +71,14 @@ const SignIn = () => {
       </p>
 
       <div className="pb-4">
-        <button className="text-xl text-white px-4 py-1 rounded-md bg-blue-500 w-full hover:bg-blue-600">
+        <button
+          type="submit"
+          className="text-xl text-white px-4 py-1 rounded-md bg-blue-500 w-full hover:bg-blue-600"
+        >
           Log in
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
