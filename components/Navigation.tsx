@@ -2,6 +2,9 @@
 import { CgMenuRightAlt } from "react-icons/cg";
 import { FiX } from "react-icons/fi";
 import { useState } from "react";
+import signOut from "./actions/signOut";
+// import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Menu = () => (
   <div className="absolute top-[40px] -left-[120px] h-auto w-[140px] p-2 rounded-md border shadow-md bg-white">
@@ -16,7 +19,12 @@ const Menu = () => (
       <li className="text-gray-600 hover:text-gray-700 cursor-pointer pb-3 border-b">
         About us
       </li>
-      <button className="w-full bg-blue-500 text-white cursor-pointer hover:to-blue-400 py-1 rounded-md">
+      <button
+        onClick={() => {
+          signOut();
+        }}
+        className="w-full bg-blue-500 text-white cursor-pointer hover:bg-blue-400 py-1 rounded-md"
+      >
         Sign out
       </button>
     </ul>
@@ -24,6 +32,7 @@ const Menu = () => (
 );
 
 const Navigation = () => {
+  const router = useRouter();
   const [isMenu, setMenuStatus] = useState<boolean>(false);
 
   const toogleMenu = () => {
@@ -51,7 +60,13 @@ const Navigation = () => {
             <li className="text-gray-600 hover:text-gray-700 cursor-pointer">
               About us
             </li>
-            <button className=" bg-blue-500 text-white cursor-pointer hover:to-blue-400 py-1 px-6 rounded-md">
+            <button
+              onClick={() => {
+                signOut();
+                router.push("/");
+              }}
+              className=" bg-blue-500 text-white cursor-pointer hover:bg-blue-400 py-1 px-6 rounded-md"
+            >
               Sign out
             </button>
           </div>

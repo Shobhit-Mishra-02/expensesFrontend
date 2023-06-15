@@ -19,23 +19,20 @@ const SignUp = () => {
   });
 
   const createNewUser = async () => {
-    if (newUser.password === newUser.confirmPassword) {
-      const payload = {
-        username: newUser.eamil,
-        password: newUser.password,
-      };
-
-      const data = await createUser(payload);
-      console.log(data);
-
-      setNewUser({
-        eamil: "",
-        password: "",
-        confirmPassword: "",
-      });
-
-      router.push("/auth/signin");
-    }
+    // if (newUser.password === newUser.confirmPassword) {
+    //   const payload = {
+    //     username: newUser.eamil,
+    //     password: newUser.password,
+    //   };
+    //   const data = await createUser(payload);
+    //   console.log(data);
+    //   setNewUser({
+    //     eamil: "",
+    //     password: "",
+    //     confirmPassword: "",
+    //   });
+    //   router.push("/auth/signin");
+    // }
   };
 
   return (
@@ -102,7 +99,7 @@ const SignUp = () => {
       <p className="text-sm pt-2 text-gray-600 pb-6">
         already have account,{" "}
         <span className="text-blue-500 underline hover:text-blue-600 cursor-pointer">
-          <Link href="/auth/signin">click here</Link>
+          <Link href="/">click here</Link>
         </span>
       </p>
 

@@ -13,15 +13,22 @@ const SignIn = () => {
 
   const signIn = async () => {
     // console.log(user);
+
     const data = await validateUser({
       username: user.email,
       password: user.password,
     });
     if (data.status === "success") {
-      router.push("/");
+      router.push("/dashboard");
     } else {
       alert(data.message);
     }
+
+    setUser({
+      ...user,
+      email: "",
+      password: "",
+    });
   };
 
   return (
@@ -66,7 +73,7 @@ const SignIn = () => {
       <p className="text-sm pt-2 text-gray-600 pb-6">
         don't have account,{" "}
         <span className="text-blue-500 underline hover:text-blue-600 cursor-pointer">
-          <Link href="/auth/signup">click here</Link>
+          <Link href="/register">click here</Link>
         </span>
       </p>
 
